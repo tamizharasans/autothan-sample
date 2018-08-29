@@ -23,7 +23,7 @@ import java.util.Map;
 
 
 @SuppressWarnings("unused")
-public class TestExecution {
+public class GenerateReport {
 
 
 	//List of objected initialized
@@ -58,18 +58,18 @@ public class TestExecution {
 
 
 
-
+		@Test
 		public void genReport() {
 
 
 			try {
 
+				String tagetTestClassesPath = this.getClass().getClassLoader().getResource(".").getPath();
 
-
-				String XSLFLPATH = "TestSupportFiles/TestReportXSL.xsl";
-				String XML_FILE =  "TestReports/";
-				String HTML_FILE = "TestReports/";
-				String SCREENSHOT_FLPATH = "TestRunSceenshots/";
+				String XSLFLPATH = tagetTestClassesPath+"TestReports/TestReportXSL.xsl";
+				String XML_FILE =  tagetTestClassesPath+"TestReports/";
+				String HTML_FILE = tagetTestClassesPath+"TestReports/";
+				String SCREENSHOT_FLPATH = tagetTestClassesPath+"TestRunSceenshots/";
 				String HTML_FLPATH = HTML_FILE + "GenerateReport.html";
 				String XML_REPORT = XML_FILE + "GenerateReport.xml";
 
@@ -98,61 +98,29 @@ public class TestExecution {
 				Map<Integer, String> map = new HashMap();
 				map.put(1, "Se7ven");
 				map.put(2, "Se7ven");
-				int i = 1;
 
 
 				//Updating Root Child Element in Dynamic XML to generate Widget Report
-				Element topic = document.createElement("topic");
-
-				Element tcId = document.createElement("tcId");
-				tcId.appendChild(document.createTextNode("Movie Number"));
-				topic.appendChild(tcId);
-
-
-				Element tcName = document.createElement("tcName");
-				tcName.appendChild(document.createTextNode("Movie Name"));
-				topic.appendChild(tcName);
-
-				Element tcDesc = document.createElement("tcDesc");
-
-				Element tcStatus = document.createElement("tcStatus");
-				topic.appendChild(tcStatus);
-				topic.appendChild(tcDesc);
-
-				//====Updating Report environment details
-				if (i == 1) {
-					Element movieNo = document.createElement("movieNo");
-					movieNo.appendChild(document.createTextNode(osInfo));
-					topic.appendChild(movieNo);
-
-					Element movieName = document.createElement("movieName");
-					movieName.appendChild(document.createTextNode(browserInfo));
-					topic.appendChild(movieName);
-				}
-
-				report.appendChild(topic);
 
 
 				int j = 1;
 				for (Map.Entry<Integer, String> entry : map.entrySet()) {
 
-					LoopTestLoop:
+
 
 					transformTestReport = new TransformTestReport();
 					//Updating data for Root Child Elements in Dynamic XML to generate Widget Report
-					Element stepE = document.createElement("step");
-					stepE.setAttribute("num", new Integer(j).toString());
 
-					Element stepNum = document.createElement("movieNo");
-					stepNum.appendChild(document.createTextNode(String.valueOf(entry.getKey())));
-					stepE.appendChild(stepNum);
+					Element topic = document.createElement("topic");
+					Element movieNo = document.createElement("movieNo");
+					movieNo.appendChild(document.createTextNode(String.valueOf(entry.getKey())));
+					topic.appendChild(movieNo);
 
-					Element stepDesc = document.createElement("movieName");
-					stepDesc.appendChild(document.createTextNode(entry.getValue()));
-					stepE.appendChild(stepDesc);
+					Element movieName = document.createElement("movieName");
+					movieName.appendChild(document.createTextNode(entry.getValue()));
+					topic.appendChild(movieName);
+					report.appendChild(topic);
 
-
-					tcDesc.appendChild(stepE);
 				}
 
 
@@ -167,7 +135,6 @@ public class TestExecution {
 				TestReportUtil testReportUtil = new TestReportUtil(XSLFLPATH, XML_REPORT, HTML_FLPATH);
 				testReportUtil.generateTestReport();
 
-				i++;
 
 
 			} catch (Exception e) {
