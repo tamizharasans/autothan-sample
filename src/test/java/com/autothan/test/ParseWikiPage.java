@@ -1,5 +1,6 @@
 package com.autothan.test;
 
+import com.autothan.base.MovieObj;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,6 +12,8 @@ import org.testng.annotations.Test;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -39,12 +42,11 @@ public class ParseWikiPage extends TestHelper{
     /**
      * Test to assert the Director name for a movie by comparing the values
      * in WIKI & IMDB pages.
-     * @param index
      * @param wikiURL
      * @throws Exception
      */
-    @Test(dataProvider = "wikiLinks",singleThreaded = false,threadPoolSize = 5)
-    public void testParsePageContent(Integer index,String wikiURL) throws Exception
+
+    public void testParsePageContent(String movieName,String wikiURL, List<MovieObj> movieObj) throws Exception
     {
         String imdbURL = null;
         String wikiMovieDirector = null;

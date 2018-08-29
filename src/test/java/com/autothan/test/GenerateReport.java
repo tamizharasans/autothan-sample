@@ -54,8 +54,8 @@ public class GenerateReport {
 
 
 
-		@Test
-		public void genReport() {
+
+		public void genReport(List<MovieObj> movieObjs) {
 
 			if(modeOfExec==null){
 				modeOfExec="GUI";
@@ -95,30 +95,6 @@ public class GenerateReport {
 
 				Element report = document.createElement("report");
 				document.appendChild(report);
-
-				List<MovieObj> movieObjs=new ArrayList<>();
-				MovieObj movieObj=new MovieObj();
-				movieObj.setMovieId("1");
-				movieObj.setMovieName("The Shawshank Redemption");
-				movieObj.setWikiUrl("https://en.wikipedia.org/wiki/The_Shawshank_Redemption");
-				movieObj.setWikiSnapShotUrl("https://en.wikipedia.org/");
-				movieObj.setWikiDirName("Frank Darabont");
-				movieObj.setImdbUrl("https://www.imdb.com/title/tt0111161/");
-				movieObj.setImdbSnapShotUrl("https://www.imdb.com");
-				movieObj.setImdbDirName("Frank Darabont");
-				movieObjs.add(movieObj);
-
-				movieObj=new MovieObj();
-				movieObj.setMovieId("2");
-				movieObj.setMovieName("The Shawshank Redemption");
-				movieObj.setWikiUrl("https://en.wikipedia.org/wiki/The_Shawshank_Redemption");
-				movieObj.setWikiSnapShotUrl("https://en.wikipedia.org/");
-				movieObj.setWikiDirName("Frank Darabont");
-				movieObj.setImdbUrl("https://www.imdb.com/title/tt0111161/");
-				movieObj.setImdbSnapShotUrl("https://www.imdb.com");
-				movieObj.setImdbDirName("Frank Darabont");
-				movieObjs.add(movieObj);
-
 
 				for (MovieObj movieObj1:movieObjs) {
 
