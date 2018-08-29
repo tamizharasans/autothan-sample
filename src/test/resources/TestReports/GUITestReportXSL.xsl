@@ -18,6 +18,7 @@
 						<th width="10%" >IMDB URL</th>
 						<th width="10%" >IMDB Snapshot URL</th>
 						<th width="10%" >IMDB Director Name</th>
+						<th width="10%" >Error Status</th>
 					</tr>
 
 
@@ -26,11 +27,23 @@
 							<td ALIGN="CENTER" ><xsl:value-of select="movieId"/></td>
 							<td><xsl:value-of select="movieName"/></td>
 							<td><xsl:value-of select="wikiUrl"/></td>
-							<td><xsl:value-of select="wikiSnapShotUrl"/></td>
+							<td align="center">
+								<xsl:element name="a">
+									<xsl:attribute name="href">
+										<xsl:value-of select="wikiSnapShotUrl"/>
+									</xsl:attribute>
+									<xsl:value-of select="wikiSnapShotUrl"/>
+								</xsl:element>
+								<img>
+								<xsl:attribute name="src">
+									<xsl:value-of select="/src/test/resources/img/images.png"/>
+								</xsl:attribute>
+							</img></td>
 							<td><xsl:value-of select="wikiDirName"/></td>
 							<td><xsl:value-of select="imdbUrl"/></td>
 							<td><xsl:value-of select="imdbSnapShotUrl"/></td>
 							<td><xsl:value-of select="imdbDirName"/></td>
+							<td><xsl:value-of select="errorStatus"/></td>
 						</tr>
 					</xsl:for-each>
 

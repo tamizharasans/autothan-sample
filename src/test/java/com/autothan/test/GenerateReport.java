@@ -101,10 +101,10 @@ public class GenerateReport {
 				movieObj.setMovieId("1");
 				movieObj.setMovieName("The Shawshank Redemption");
 				movieObj.setWikiUrl("https://en.wikipedia.org/wiki/The_Shawshank_Redemption");
-				movieObj.setWikiSnapShotUrl("");
+				movieObj.setWikiSnapShotUrl("https://en.wikipedia.org/");
 				movieObj.setWikiDirName("Frank Darabont");
 				movieObj.setImdbUrl("https://www.imdb.com/title/tt0111161/");
-				movieObj.setImdbSnapShotUrl("");
+				movieObj.setImdbSnapShotUrl("https://www.imdb.com");
 				movieObj.setImdbDirName("Frank Darabont");
 				movieObjs.add(movieObj);
 
@@ -112,17 +112,14 @@ public class GenerateReport {
 				movieObj.setMovieId("2");
 				movieObj.setMovieName("The Shawshank Redemption");
 				movieObj.setWikiUrl("https://en.wikipedia.org/wiki/The_Shawshank_Redemption");
-				movieObj.setWikiSnapShotUrl("");
+				movieObj.setWikiSnapShotUrl("https://en.wikipedia.org/");
 				movieObj.setWikiDirName("Frank Darabont");
 				movieObj.setImdbUrl("https://www.imdb.com/title/tt0111161/");
-				movieObj.setImdbSnapShotUrl("");
+				movieObj.setImdbSnapShotUrl("https://www.imdb.com");
 				movieObj.setImdbDirName("Frank Darabont");
 				movieObjs.add(movieObj);
 
 
-
-
-				int j = 1;
 				for (MovieObj movieObj1:movieObjs) {
 
 					transformTestReport = new TransformTestReport();
@@ -147,8 +144,8 @@ public class GenerateReport {
 					topic.appendChild(wikiSnapShotUrl);
 
 					Element wikiDirName = document.createElement("wikiDirName");
-					wikiSnapShotUrl.appendChild(document.createTextNode(movieObj1.getWikiDirName()));
-					topic.appendChild(wikiSnapShotUrl);
+					wikiDirName.appendChild(document.createTextNode(movieObj1.getWikiDirName()));
+					topic.appendChild(wikiDirName);
 
 					Element imdbUrl = document.createElement("imdbUrl");
 					imdbUrl.appendChild(document.createTextNode(movieObj1.getImdbUrl()));
@@ -161,6 +158,10 @@ public class GenerateReport {
 					Element imdbDirName = document.createElement("imdbDirName");
 					imdbDirName.appendChild(document.createTextNode(movieObj1.getImdbDirName()));
 					topic.appendChild(imdbDirName);
+
+					Element errorStatus = document.createElement("errorStatus");
+					errorStatus.appendChild(document.createTextNode(movieObj1.getErrorMessage()));
+					topic.appendChild(errorStatus);
 
 					report.appendChild(topic);
 

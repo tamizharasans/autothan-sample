@@ -16,6 +16,7 @@
 						<th width="10%" >Wikipedia Director Name</th>
 						<th width="10%" >IMDB URL</th>
 						<th width="10%" >IMDB Director Name</th>
+						<th width="10%" >Error Status</th>
 					</tr>
 
 
@@ -27,6 +28,7 @@
 							<td><xsl:value-of select="wikiDirName"/></td>
 							<td><xsl:value-of select="imdbUrl"/></td>
 							<td><xsl:value-of select="imdbDirName"/></td>
+							<td><xsl:value-of select="errorStatus"/></td>
 						</tr>
 					</xsl:for-each>
 
