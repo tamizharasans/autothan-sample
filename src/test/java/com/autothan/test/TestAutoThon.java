@@ -29,12 +29,13 @@ public class TestAutoThon {
 	private static MovieObj movieObj = new MovieObj();
 	private static List<MovieObj> movieObjList = new ArrayList<>();
     static String modeOfExec=System.getProperty("modeOfExec");
+    private static final String PROPERTY_FILE_NAME = "movieNames.properties";
 
 	static{
 		InputStream inputStream;
 		try {
 			prop = new Properties();
-			inputStream = ClassLoader.class.getResourceAsStream("/movieNames.properties");
+			inputStream = ClassLoader.class.getResourceAsStream("/"+PROPERTY_FILE_NAME);
 			prop.load(inputStream);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -90,8 +91,6 @@ public class TestAutoThon {
 			Assert.assertEquals(directorName, directorName1);
 	}
 
-
-
 	@AfterSuite
 	public void quit(){
 		if("GUI".equalsIgnoreCase(modeOfExec)) {
@@ -129,7 +128,7 @@ public class TestAutoThon {
 			}
 		}else if("REST".equalsIgnoreCase(modeOfExec)) {
 			ParseWikiPage parseWikiPage=new ParseWikiPage();
-			parseWikiPage.testParsePageContent();
+			//parseWikiPage.testParsePageContent();
 		}
 
 

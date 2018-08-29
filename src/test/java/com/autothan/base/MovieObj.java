@@ -2,6 +2,24 @@ package com.autothan.base;
 
 public class MovieObj {
 
+    private String movieId;
+    private String movieName;
+    private String wikiUrl;
+    private String wikiSnapShotUrl;
+    private String wikiDirName;
+    private String imdbUrl;
+    private String imdbSnapShotUrl;
+    private String imdbDirName;
+    private String errorMessage;
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
+
     public String getMovieName() {
         return movieName;
     }
@@ -10,28 +28,20 @@ public class MovieObj {
         this.movieName = movieName;
     }
 
-    public String getWikiLink() {
-        return wikiLink;
+    public String getWikiUrl() {
+        return wikiUrl;
     }
 
-    public void setWikiLink(String wikiLink) {
-        this.wikiLink = wikiLink;
+    public void setWikiUrl(String wikiUrl) {
+        this.wikiUrl = wikiUrl;
     }
 
-    public String getImdbLink() {
-        return imdbLink;
+    public String getWikiSnapShotUrl() {
+        return wikiSnapShotUrl;
     }
 
-    public void setImdbLink(String imdbLink) {
-        this.imdbLink = imdbLink;
-    }
-
-    public String getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(String movieId) {
-        this.movieId = movieId;
+    public void setWikiSnapShotUrl(String wikiSnapShotUrl) {
+        this.wikiSnapShotUrl = wikiSnapShotUrl;
     }
 
     public String getWikiDirName() {
@@ -42,6 +52,22 @@ public class MovieObj {
         this.wikiDirName = wikiDirName;
     }
 
+    public String getImdbUrl() {
+        return imdbUrl;
+    }
+
+    public void setImdbUrl(String imdbUrl) {
+        this.imdbUrl = imdbUrl;
+    }
+
+    public String getImdbSnapShotUrl() {
+        return imdbSnapShotUrl;
+    }
+
+    public void setImdbSnapShotUrl(String imdbSnapShotUrl) {
+        this.imdbSnapShotUrl = imdbSnapShotUrl;
+    }
+
     public String getImdbDirName() {
         return imdbDirName;
     }
@@ -50,12 +76,11 @@ public class MovieObj {
         this.imdbDirName = imdbDirName;
     }
 
-    private String movieName;
-    private String wikiLink;
-    private String imdbLink;
-    private String movieId;
-    private String wikiDirName;
-    private String imdbDirName;
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
-
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }
