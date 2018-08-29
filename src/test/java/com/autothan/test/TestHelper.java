@@ -15,7 +15,7 @@ import java.util.UUID;
 public class TestHelper {
 
     public static Client client = null;
-    public static String BASE_URI = "https://en.wikipedia.org/wiki/The_Shawshank_Redemption";
+    public static String BASE_URI = "https://en.wikipedia.org/wiki/";
 
 
     public Invocation.Builder createBuilder(String path) {

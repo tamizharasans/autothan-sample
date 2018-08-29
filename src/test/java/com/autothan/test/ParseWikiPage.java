@@ -19,7 +19,8 @@ import static org.testng.Assert.assertEquals;
  */
 public class ParseWikiPage extends TestHelper{
 
-    @DataProvider
+
+    @DataProvider()
     public static Object[][] wikiLinks() {
         Object[][] result = new Object[][]{
                 {1,"https://en.wikipedia.org/wiki/The_invalidmovie"},
@@ -34,6 +35,13 @@ public class ParseWikiPage extends TestHelper{
         return result;
     }
 
+    /**
+     * Test to assert the Director name for a movie by comparing the values
+     * in WIKI & IMDB pages.
+     * @param index
+     * @param wikiURL
+     * @throws Exception
+     */
     @Test(dataProvider = "wikiLinks",singleThreaded = false,threadPoolSize = 5)
     public void testParsePageContent(Integer index,String wikiURL) throws Exception
     {
