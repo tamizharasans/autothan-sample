@@ -46,8 +46,12 @@ public class ParseWikiPage extends TestHelper{
      * @throws Exception
      */
 
-    public void testParsePageContent(String movieName,String wikiURL, List<MovieObj> movieObj) throws Exception
+    public void testParsePageContent(String movieName,String movieId, String wikiURL, List<MovieObj> movieObjList) throws Exception
     {
+        MovieObj movieObj = new MovieObj();
+        movieObj.setMovieId(movieId);
+        movieObj.setMovieName(movieName);
+        movieObj.setWikiUrl(wikiURL);
         String imdbURL = null;
         String wikiMovieDirector = null;
         Invocation.Builder wikiPageBuilder = createBuilder(wikiURL);
@@ -70,10 +74,12 @@ public class ParseWikiPage extends TestHelper{
             //System.out.println(element.absUrl("href"));
             if(element.absUrl("href").contains("imdb")) {
                 imdbURL = element.absUrl("href");
+                movieObj.setImdbUrl(imdbURL);
             }
 
             if(String.valueOf(element.getElementsContainingText("Films directed by")).length() >0){
                 wikiMovieDirector =  StringUtils.substringAfter(String.valueOf(element.getElementsContainingText("Films directed by")),">Films directed by").replace("</a>","").trim();
+                movieObj.setWikiDirName(wikiMovieDirector);
             }
         }
 
@@ -95,14 +101,14 @@ public class ParseWikiPage extends TestHelper{
         for(Element element : imdbElements){
             if(String.valueOf(element.getElementsByAttributeValue("title",wikiMovieDirector)).length()>0) {
                 String  imdbMovieDirector = String.valueOf(element.getElementsByAttributeValue("title",wikiMovieDirector).get(0).childNode(0).toString().trim());
+                movieObj.setImdbDirName(imdbMovieDirector);
                 assertEquals(imdbMovieDirector,wikiMovieDirector,"Director Assertion has failed");
                 break;
             }
 
         }
+        movieObjList.add(movieObj);
 
     }
-
-
 }
 

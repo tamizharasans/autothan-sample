@@ -147,7 +147,7 @@ public class TestAutoThon {
 						try {
 							String movieName = getPropertyValue(String.valueOf(tab));
 							String wikiLink = wikiUrlMap.get(movieName);
-							parseWikiPage.testParsePageContent(movieName, wikiLink, movieObjList);
+							parseWikiPage.testParsePageContent(movieName, String.valueOf(tab), wikiLink, movieObjList);
 						}catch (Exception e) {
 							System.out.println("Exception occurred :: " + (e != null ? e.getMessage() : null));
 						}
