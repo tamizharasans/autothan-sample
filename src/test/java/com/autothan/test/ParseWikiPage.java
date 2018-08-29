@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by dsastry on 29/08/18.
@@ -46,11 +47,13 @@ public class ParseWikiPage extends TestHelper{
     public void testParsePageContent(Integer index,String wikiURL) throws Exception
     {
         String imdbURL = null;
-        String movieDirector = null;
+        String wikiMovieDirector = null;
         Invocation.Builder wikiPageBuilder = createBuilder(wikiURL);
         wikiPageBuilder.header("Accept", MediaType.APPLICATION_JSON_TYPE);
         Response response = wikiPageBuilder.get();
-        if(index.equals(1)){
+        if(response.getStatus()!=200)
+        {
+            assertTrue(response.getStatusInfo().getReasonPhrase().equals("Not Found"),"Wiki Page is not found");
             assertEquals(response.getStatus(),404);
             return;
         }else
@@ -68,12 +71,12 @@ public class ParseWikiPage extends TestHelper{
             }
 
             if(String.valueOf(element.getElementsContainingText("Films directed by")).length() >0){
-                movieDirector =  StringUtils.substringAfter(String.valueOf(element.getElementsContainingText("Films directed by")),">Films directed by").replace("</a>","");
+                wikiMovieDirector =  StringUtils.substringAfter(String.valueOf(element.getElementsContainingText("Films directed by")),">Films directed by").replace("</a>","").trim();
             }
         }
 
         System.out.println("IMDB URL is::" + imdbURL);
-        System.out.println("Director :: " + movieDirector) ;
+        System.out.println("Director :: " + wikiMovieDirector) ;
         //System.out.println("Output :: " + response.readEntity(String.class));
 
         //Request to IMDB Page
@@ -86,10 +89,11 @@ public class ParseWikiPage extends TestHelper{
         Document imdbDoc = Jsoup.parse(imdbResponse.readEntity(String.class), "UTF-8");
         Elements imdbElements = imdbDoc.select("a");
 
-        //Compare the Director names obatained from WIKI and IMDB
+        //Compare the Director names obtained from WIKI and IMDB
         for(Element element : imdbElements){
-            if(String.valueOf(element.getElementsByAttributeValue("title",movieDirector)).length()>0) {
-                assertEquals(element.getElementsByAttributeValue("title",movieDirector).get(0).childNode(0).toString().trim(),movieDirector.trim(),"Director Assertion Passed");
+            if(String.valueOf(element.getElementsByAttributeValue("title",wikiMovieDirector)).length()>0) {
+                String  imdbMovieDirector = String.valueOf(element.getElementsByAttributeValue("title",wikiMovieDirector).get(0).childNode(0).toString().trim());
+                assertEquals(imdbMovieDirector,wikiMovieDirector,"Director Assertion has failed");
                 break;
             }
 
