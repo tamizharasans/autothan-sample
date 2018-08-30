@@ -103,11 +103,19 @@ public class GenerateReport {
 
 					Element wikiSnapShotUrl = document.createElement("wikiSnapShotUrl");
 					if(movieObj1.getWikiSnapShotUrl()!=null) {
-						wikiSnapShotUrl.appendChild(document.createTextNode(movieObj1.getWikiSnapShotUrl()));
+						wikiSnapShotUrl.appendChild(document.createTextNode("file://"+movieObj1.getWikiSnapShotUrl()));
 					}else{
 						wikiSnapShotUrl.appendChild(document.createTextNode(""));
 					}
 					topic.appendChild(wikiSnapShotUrl);
+
+					Element wikiUrlView = document.createElement("wikiUrlView");
+					if(movieObj1.getWikiSnapShotUrl()!=null) {
+						wikiUrlView.appendChild(document.createTextNode("View Wiki Snapshot"));
+					}else{
+						wikiUrlView.appendChild(document.createTextNode(""));
+					}
+					topic.appendChild(wikiUrlView);
 
 					Element wikiDirName = document.createElement("wikiDirName");
 					if(movieObj1.getWikiDirName()!=null) {
@@ -127,11 +135,19 @@ public class GenerateReport {
 
 					Element imdbSnapShotUrl = document.createElement("imdbSnapShotUrl");
 					if(movieObj1.getImdbSnapShotUrl()!=null) {
-						imdbSnapShotUrl.appendChild(document.createTextNode(movieObj1.getImdbSnapShotUrl()));
+						imdbSnapShotUrl.appendChild(document.createTextNode("file://"+movieObj1.getImdbSnapShotUrl()));
 					}else{
 						imdbSnapShotUrl.appendChild(document.createTextNode(""));
 					}
 					topic.appendChild(imdbSnapShotUrl);
+
+					Element imdbSnapShotUrlView = document.createElement("imdbUrlSnapshotView");
+					if(movieObj1.getImdbSnapShotUrl()!=null) {
+						imdbSnapShotUrlView.appendChild(document.createTextNode("View IMDB Snapshot"));
+					}else{
+						imdbSnapShotUrlView.appendChild(document.createTextNode(""));
+					}
+					topic.appendChild(imdbSnapShotUrlView);
 
 					Element imdbDirName = document.createElement("imdbDirName");
 					if(movieObj1.getImdbDirName()!=null) {

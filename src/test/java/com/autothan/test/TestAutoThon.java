@@ -86,7 +86,7 @@ public class TestAutoThon {
 						}
 
 						if(!foundWikiLink){
-						   wikiUrlMap.put(movieName, "Wiki Link NOT found for this movie");
+						   wikiUrlMap.put(movieName, "Wiki Links NOT found for this movie");
 						}
 
 					} catch (Exception e) {
