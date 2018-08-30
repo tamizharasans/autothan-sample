@@ -59,6 +59,7 @@ public class ParseWikiPage extends TestHelper{
         {
             assertTrue(response.getStatusInfo().getReasonPhrase().equals("Not Found"),"Wiki Page is not found");
             assertEquals(response.getStatus(),404);
+            movieObj.setErrorMessage("Movie Name not valid !!");
             return;
         }else
         {
