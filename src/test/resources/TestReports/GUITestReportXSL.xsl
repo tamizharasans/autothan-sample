@@ -18,7 +18,7 @@
 						<th width="10%" >IMDB URL</th>
 						<th width="10%" >IMDB Snapshot URL</th>
 						<th width="10%" >IMDB Director Name</th>
-						<th width="10%" >Error Status</th>
+						<th width="10%" >Error Message</th>
 					</tr>
 
 
