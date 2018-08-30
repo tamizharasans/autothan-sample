@@ -2,6 +2,7 @@ package com.autothan.test;
 
 import com.autothan.base.MovieObj;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeSuite;
@@ -25,6 +26,7 @@ public class TestAutoThon {
     private static final String PROPERTY_FILE_NAME = "movieNames.properties";
     private static Map<String, String> wikiUrlMap = new HashMap<>();
     private static List<MovieObj> movieObjList = new ArrayList<>();
+	static String threadCnt=System.getProperty("threadCnt");
 
 	static{
 		InputStream inputStream;
@@ -41,6 +43,10 @@ public class TestAutoThon {
 		if(modeOfExec==null){
 			modeOfExec="GUI";
 		}
+
+		if(threadCnt==null){
+			threadCnt="4";
+		}
 	}
 
 	public static String getPropertyValue(String key){
@@ -56,7 +62,7 @@ public class TestAutoThon {
 		System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "20");
 
 			List<Integer> tabs = new ArrayList<>();
-			for(int i=0;i<=2;i++) {
+			for(int i=0;i<=Integer.parseInt(threadCnt);i++) {
 				tabs.add(i);
 			}
 			tabs.parallelStream().forEach(tab -> {
@@ -98,7 +104,7 @@ public class TestAutoThon {
 
 
 			List<Integer> tabs = new ArrayList<>();
-			for(int i=0;i<=2;i++) {
+			for(int i=0;i<=Integer.parseInt(threadCnt);i++) {
 				tabs.add(i);
 			}
 			tabs.parallelStream().forEach(tab -> {
@@ -108,7 +114,7 @@ public class TestAutoThon {
 						try {
 							System.out.println("Tab :: " + tab);
 							MovieObj movieObj = new MovieObj();
-							movieObj.setMovieId(String.valueOf(tab));
+							movieObj.setMovieId(String.valueOf(tab+1));
 							String movieName = getPropertyValue(String.valueOf(tab));
 							movieObj.setMovieName(movieName);
 							String wikiLink = wikiUrlMap.get(movieName);
@@ -123,22 +129,16 @@ public class TestAutoThon {
 								movieObj.setImdbSnapShotUrl(getScreenshot("imdb_" + movieName,driver));
 								String imdbDirName = driver.findElement(By.xpath("//*[@id=\"title-overview-widget\"]/div[3]/div[1]/div[2]/a")).getText();
 								movieObj.setImdbDirName(imdbDirName);
-								movieObj.setErrorMessage("");
 							} else {
 								movieObj.setErrorMessage("Wiki Link NOT found for this movie");
 							}
-							if (!movieObj.getWikiDirName().equals(movieObj.getImdbDirName())) {
+							if (!StringUtils.equalsIgnoreCase(movieObj.getWikiDirName(),movieObj.getImdbDirName())) {
 								movieObj.setErrorMessage("IMDB Director Name did not Match with WIKI page Director Name");
-								movieObj.setWikiUrl("");
-								movieObj.setWikiDirName("");
-								movieObj.setWikiSnapShotUrl("");
-								movieObj.setImdbUrl("");
-								movieObj.setImdbDirName("");
-								movieObj.setImdbSnapShotUrl("");
 							}
 							movieObjList.add(movieObj);
 						} catch (Exception e) {
-							System.out.println("Exception occurred :: " + (e != null ? e.getMessage() : null));
+							System.out.println("Exception occurred :: " +e);
+							e.printStackTrace();
 						} finally {
 							driver.close();
 						}
@@ -147,7 +147,7 @@ public class TestAutoThon {
 						try {
 							String movieName = getPropertyValue(String.valueOf(tab));
 							String wikiLink = wikiUrlMap.get(movieName);
-							parseWikiPage.testParsePageContent(movieName, String.valueOf(tab), wikiLink, movieObjList);
+							parseWikiPage.testParsePageContent(movieName, String.valueOf(tab+1), wikiLink, movieObjList);
 						}catch (Exception e) {
 							System.out.println("Exception occurred :: " + (e != null ? e.getMessage() : null));
 						}
