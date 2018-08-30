@@ -19,19 +19,18 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by dsastry on 29/08/18.
  */
-public class ParseWikiPage extends TestHelper{
-
+public class ParseWikiPage extends TestHelper {
 
 
     /**
      * Test to assert the Director name for a movie by comparing the values
      * in WIKI & IMDB pages.
+     *
      * @param wikiURL
      * @throws Exception
      */
 
-    public void testParsePageContent(String movieName,String movieId, String wikiURL, List<MovieObj> movieObjList) throws Exception
-    {
+    public void testParsePageContent(String movieName, String movieId, String wikiURL, List<MovieObj> movieObjList) throws Exception {
 
         //Build the Movie Object -- Required for reporting
         MovieObj movieObj = new MovieObj();
@@ -47,25 +46,23 @@ public class ParseWikiPage extends TestHelper{
         Response response = wikiPageBuilder.get();
 
         //Validate the response
-        if(response.getStatus()!=200)
-        {
+        if (response.getStatus() != 200) {
             //Check for the Negative Scenario
-            assertTrue(response.getStatusInfo().getReasonPhrase().equals("Not Found"),"Wiki Page is not found");
-            assertEquals(response.getStatus(),404);
+            assertTrue(response.getStatusInfo().getReasonPhrase().equals("Not Found"), "Wiki Page is not found");
+            assertEquals(response.getStatus(), 404);
             movieObj.setErrorMessage("Wiki Link NOT found for this movie");
             return;
-        }else
-        {
-            assertEquals(response.getStatus(),200);
+        } else {
+            assertEquals(response.getStatus(), 200);
         }
 
         Document doc = Jsoup.parse(response.readEntity(String.class), "UTF-8");
         Elements wikiElements = doc.select("a");
 
         //Find the IMDB URL & Director Name from the wikipedia page
-        for(Element element : wikiElements){
+        for (Element element : wikiElements) {
             //System.out.println(element.absUrl("href"));
-            if(element.absUrl("href").contains("imdb")) {
+            if (element.absUrl("href").contains("imdb")) {
                 imdbURL = element.absUrl("href");
                 movieObj.setImdbUrl(imdbURL);
             }
@@ -73,7 +70,7 @@ public class ParseWikiPage extends TestHelper{
 
         //Get the director name from the Wiki page using XPath
         String result = Xsoup.compile("//*[@id=\"mw-content-text\"]/div/table[1]/tbody/tr[3]/td/").evaluate(doc).get();
-        wikiMovieDirector= StringUtils.substringBetween(result,">","</a>").replace("<br>",",");
+        wikiMovieDirector = StringUtils.substringBetween(result, ">", "</a>").replace("<br>", ",");
         movieObj.setWikiDirName(wikiMovieDirector);
 
         /*System.out.println("IMDB URL is::" + imdbURL);
@@ -81,39 +78,36 @@ public class ParseWikiPage extends TestHelper{
 
 
         //Request to IMDB Page
-        imdbURL = StringUtils.replace(imdbURL,"www.","m.");
+        imdbURL = StringUtils.replace(imdbURL, "www.", "m.");
         Invocation.Builder imdbBuilder = createBuilder(imdbURL);
         imdbBuilder.header("Accept", MediaType.APPLICATION_JSON_TYPE);
         Response imdbResponse = imdbBuilder.get();
-        if(imdbResponse.getStatus()!=200)
-        {
+        if (imdbResponse.getStatus() != 200) {
             //Check for the Negative Scenario
-            assertTrue(imdbResponse.getStatusInfo().getReasonPhrase().equals("Not Found"),"IMDB Page is not found");
-            assertEquals(imdbResponse.getStatus(),404);
+            assertTrue(imdbResponse.getStatusInfo().getReasonPhrase().equals("Not Found"), "IMDB Page is not found");
+            assertEquals(imdbResponse.getStatus(), 404);
             movieObj.setErrorMessage("Movie Name is not valid !!");
             return;
-        }else
-        {
-            assertEquals(imdbResponse.getStatus(),200);
+        } else {
+            assertEquals(imdbResponse.getStatus(), 200);
         }
 
         //Extract the Director Name from the IMDB page
         Document imdbDoc = Jsoup.parse(imdbResponse.readEntity(String.class), "UTF-8");
-        String result2 =  Xsoup.compile("/*//*[@id=\"cast-and-crew\"]/a[2]/div/span").evaluate(imdbDoc).get();
-        String imdbMovieDirector= StringUtils.substringBetween(result2,">","</").replace("<br>",",").replace(" ","").trim();
+        String result2 = Xsoup.compile("/*//*[@id=\"cast-and-crew\"]/a[2]/div/span").evaluate(imdbDoc).get();
+        String imdbMovieDirector = StringUtils.substringBetween(result2, ">", "</").replace("<br>", ",").replace(" ", "").trim();
 
         //Compare the values obtained from the WIKI page and IMDB page
         movieObj.setImdbDirName(imdbMovieDirector);
         //System.out.println("IMDB: "+ imdbMovieDirector + " WIKI:" + wikiMovieDirector);
 
-        if (!StringUtils.equalsIgnoreCase(movieObj.getWikiDirName().trim(),movieObj.getImdbDirName().trim())) {
+        if (!StringUtils.equalsIgnoreCase(movieObj.getWikiDirName().trim(), movieObj.getImdbDirName().trim())) {
             movieObj.setErrorMessage("IMDB Director Name did not Match with WIKI page Director Name");
         }
         //Build the movieObj for reporting
         movieObjList.add(movieObj);
 
     }
-
 
 
 }
